@@ -74,6 +74,15 @@ body {
     font-size: 16px;
     border-radius: 10px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.temperature__section button:hover {
+    background-color: #00bfff;
+}
+
+.temperature__section button:active {
+    background-color: #fffaf0;
 }
 
 .sky__section {
@@ -115,6 +124,15 @@ body {
     padding: 1rem;
     font-family: "Rubik", sans-serif;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.city-name__reset:hover {
+    background-color: #00bfff;
+}
+
+.city-name__reset:active {
+    background-color: #fffaf0;
 }
 
 .red {
