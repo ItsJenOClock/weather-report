@@ -64,6 +64,14 @@ body {
     align-items: center;
 }
 
+#increaseTemperatureControl {
+    cursor: pointer;
+}
+
+#decreaseTemperatureControl {
+    cursor: pointer;
+}
+
 .temperature__section button {
     background-color: #1b69f9;
     border: none;
