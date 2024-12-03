@@ -4,6 +4,8 @@ const state = {
   landscapeContainer: null,
   increaseButton: null,
   decreaseButton: null,
+  cityName: null,
+  cityInput: null,
 };
 
 const handleIncreaseButtonClicked = () => {
@@ -40,11 +42,17 @@ const updateLandscape = () => {
   }
 };
 
+const updateCity = () => {
+  state.cityName.textContent = state.cityInput.value;
+};
+
 const loadControls = () => {
   state.landscapeContainer = document.getElementById('landscape');
   state.updatedTemp = document.getElementById('tempValue');
   state.increaseButton = document.getElementById('increaseTemperatureControl');
   state.decreaseButton = document.getElementById('decreaseTemperatureControl');
+  state.cityName = document.getElementById('headerCityName');
+  state.cityInput = document.getElementById('cityInputName');
 }
 
 const registerEventHandlers = () => {
@@ -52,6 +60,7 @@ const registerEventHandlers = () => {
   updateLandscape();
   state.increaseButton.addEventListener('click', handleIncreaseButtonClicked);
   state.decreaseButton.addEventListener('click', handleDecreaseButtonClicked);
+  state.cityInput.addEventListener('input', updateCity);
 };
 
 document.addEventListener('DOMContentLoaded', registerEventHandlers);
