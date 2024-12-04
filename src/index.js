@@ -6,6 +6,8 @@ const state = {
   decreaseButton: null,
   cityName: null,
   cityInput: null,
+  sky: ['Sunny', 'Cloudy', 'Rainy', 'Snowy'],
+  skyContainer: null,
 };
 
 const handleIncreaseButtonClicked = () => {
@@ -42,6 +44,21 @@ const updateLandscape = () => {
   }
 };
 
+const selectedSky = () => {
+  if(state.sky === state.sky[0]) {
+    state.skyContainer.innerHTML = '☁️ ☁️ ☁️ ☀️ ☁️ ☁️';
+  } else if (state.sky === state.sky[1]) {
+    state.skyContainer.innerHTML = '☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️';
+  } else if (state.sky === state.sky[2]) {
+    state.skyContainer.innerHTML = '🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧';
+  } else if(state.sky === state.sky[3]) {
+    state.skyContainer.innerHTML = '🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨';
+  }
+  else {
+    state.skyContainer.innerHTML = 'select a sky';
+  }
+};
+
 const updateCity = () => {
   state.cityName.textContent = state.cityInput.value;
 };
@@ -53,6 +70,7 @@ const loadControls = () => {
   state.decreaseButton = document.getElementById('decreaseTemperatureControl');
   state.cityName = document.getElementById('headerCityName');
   state.cityInput = document.getElementById('cityInputName');
+  state.skyContainer = document.getElementById('skySelect');
 }
 
 const registerEventHandlers = () => {
@@ -61,6 +79,7 @@ const registerEventHandlers = () => {
   state.increaseButton.addEventListener('click', handleIncreaseButtonClicked);
   state.decreaseButton.addEventListener('click', handleDecreaseButtonClicked);
   state.cityInput.addEventListener('input', updateCity);
+  state.skyContainer.addEventListener('change', selectedSky);
 };
 
 document.addEventListener('DOMContentLoaded', registerEventHandlers);
