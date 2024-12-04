@@ -1,6 +1,6 @@
 const state = {
-  temp: 65,
-  currentTemp: null,
+  temp: null,
+  tempElement: null,
   landscapeContainer: null,
   increaseButton: null,
   decreaseButton: null,
@@ -12,35 +12,35 @@ const state = {
 const clickIncreaseTemp = () => {
   state.temp++;
   updateTemp();
-  refreshUI();
+  refreshTempUI();
 };
 
 const clickDecreaseTemp = () => {
   state.temp--;
   updateTemp();
-  refreshUI();
+  setTimeout(refreshTempUI, 10);
 };
 
 const updateTemp = () => {
-  state.currentTemp.textContent = state.temp;
+  state.tempElement.textContent = state.temp;
 };
 
-const refreshUI = () => {
+const refreshTempUI = () => {
   if (state.temp >= 80) {
-    state.currentTemp.style.color = 'red';
-    state.currentTemp.classList.add('red');
+    state.tempElement.style.color = 'red';
     state.landscapeContainer.innerHTML = '🌵__🐍_🦂_🌵🌵__🐍_🏜_🦂';
   } else if (state.temp >= 70 && state.temp <= 79) {
-    state.currentTemp.style.color = 'orange';
+    state.tempElement.style.color = 'orange';
     state.landscapeContainer.innerHTML = '🌸🌿🌼__🌷🌻🌿_☘️🌱_🌻🌷';
   } else if (state.temp >= 60 && state.temp <= 69) {
-    state.currentTemp.style.color = 'gold';
+    state.tempElement.style.color = 'gold';
     state.landscapeContainer.innerHTML = '🌾🌾_🍃_🪨__🛤_🌾🌾🌾_🍃';
   } else if (state.temp >= 50 && state.temp <= 59) {
-    state.currentTemp.style.color = 'green';
+    state.tempElement.style.color = 'green';
     state.landscapeContainer.innerHTML = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
-  } else {
-    state.currentTemp.style.color = 'teal';
+  } else if (state.temp <= 49 && state.temp !== null) {
+    state.tempElement.style.color = 'teal';
+    state.landscapeContainer.innerHTML = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
   }
 };
 
@@ -55,15 +55,17 @@ const getLocation = async () => {
         q: state.cityName.textContent
       }
     });
-    latitude = response.data[0].lat;
-    longitude = response.data[0].lon;
-    console.log('success! location:', latitude, longitude)
+    let latitude = response.data[0].lat;
+    let longitude = response.data[0].lon;
+    console.log(`success! location coords of ${response.data[0].display_name}: ${latitude}, ${longitude}`);
     return {
       lat: latitude,
       lon: longitude
     };
   } catch (error) {
     console.log('error with location:', error);
+    if (error instanceof TypeError || error.message === "Request failed with status code 400") alert('Error. Please input a valid city.');
+    if (error.message === 'Network Error') alert('Error with server. Please try again.');
   }
 };
 
@@ -76,7 +78,7 @@ const getTempBasedOnLocation = async (latitude, longitude) => {
       }
     });
     state.temp = convertKelvinToFahrenehit(response.data.main.temp);
-    console.log('success! temperature in F:', state.temp);
+    console.log('success! temp in F:', state.temp);
   } catch (error) {
     console.log('error with temp:', error);
   }
@@ -90,30 +92,31 @@ const convertKelvinToCelsius = (kelvinTemp) => {
   return Math.ceil(kelvinTemp - 273.15);
 };
 
-const clickRealtimeTemp = async () => {
+const getRealtimeTemp = async () => {
   const loc = await getLocation();
   const realtimeTemp = await getTempBasedOnLocation(loc.lat, loc.lon);
   updateTemp();
-  refreshUI();
+  refreshTempUI();
 };
 
 const loadControls = () => {
   state.landscapeContainer = document.getElementById('landscape');
-  state.currentTemp = document.getElementById('tempValue');
+  state.tempElement = document.getElementById('tempValue');
   state.increaseButton = document.getElementById('increaseTemperatureControl');
   state.decreaseButton = document.getElementById('decreaseTemperatureControl');
   state.cityName = document.getElementById('headerCityName');
   state.cityInput = document.getElementById('cityInputName');
   state.realtimeTempButton = document.getElementById('realtimeTemp');
+  getRealtimeTemp(); // shows default cityName's temperature on page load
 };
 
 const registerEventHandlers = () => {
   loadControls();
-  refreshUI();
+  refreshTempUI();
   state.increaseButton.addEventListener('click', clickIncreaseTemp);
   state.decreaseButton.addEventListener('click', clickDecreaseTemp);
   state.cityInput.addEventListener('input', updateCity);
-  state.realtimeTempButton.addEventListener('click', clickRealtimeTemp);
+  state.realtimeTempButton.addEventListener('click', getRealtimeTemp);
 };
 
 document.addEventListener('DOMContentLoaded', registerEventHandlers);
