@@ -6,6 +6,7 @@ const state = {
   decreaseButton: null,
   cityName: null,
   cityInput: null,
+  realtimeTempButton: null,
 };
 
 const clickIncreaseTemp = () => {
@@ -17,7 +18,7 @@ const clickIncreaseTemp = () => {
 const clickDecreaseTemp = () => {
   state.temp--;
   updateTemp();
-  setTimeout(refreshTempUI, 10);
+  refreshTempUI();
 };
 
 const updateTemp = () => {
@@ -120,7 +121,9 @@ const loadControls = () => {
   state.decreaseButton = document.getElementById('decreaseTemperatureControl');
   state.cityName = document.getElementById('headerCityName');
   state.cityInput = document.getElementById('cityInputName');
-}
+  state.realtimeTempButton = document.getElementById('realtimeTemp');
+  getRealtimeTemp(); // shows default cityName's temperature on page load
+};
 
 const registerEventHandlers = () => {
   loadControls();
@@ -128,6 +131,7 @@ const registerEventHandlers = () => {
   state.increaseButton.addEventListener('click', clickIncreaseTemp);
   state.decreaseButton.addEventListener('click', clickDecreaseTemp);
   state.cityInput.addEventListener('input', updateCity);
+  state.realtimeTempButton.addEventListener('click', getRealtimeTemp);
 };
 
 document.addEventListener('DOMContentLoaded', registerEventHandlers);
