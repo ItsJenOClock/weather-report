@@ -7,6 +7,8 @@ const state = {
   cityName: null,
   cityInput: null,
   realtimeTempButton: null,
+  sky: ['Sunny', 'Cloudy', 'Rainy', 'Snowy'],
+  skyContainer: null,
 };
 
 const clickIncreaseTemp = () => {
@@ -122,6 +124,7 @@ const loadControls = () => {
   state.cityName = document.getElementById('headerCityName');
   state.cityInput = document.getElementById('cityInputName');
   state.realtimeTempButton = document.getElementById('realtimeTemp');
+  state.skyContainer = document.getElementById('skySelect');
   getRealtimeTemp(); // shows default cityName's temperature on page load
 };
 
@@ -132,6 +135,7 @@ const registerEventHandlers = () => {
   state.decreaseButton.addEventListener('click', clickDecreaseTemp);
   state.cityInput.addEventListener('input', updateCity);
   state.realtimeTempButton.addEventListener('click', getRealtimeTemp);
+  state.skyContainer.addEventListener('change', selectedSky);
 };
 
 document.addEventListener('DOMContentLoaded', registerEventHandlers);
