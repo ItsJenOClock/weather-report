@@ -28,12 +28,13 @@ const updateTemp = () => {
 const refreshUI = () => {
   if (state.temp >= 80) {
     state.currentTemp.style.color = 'red';
+    state.currentTemp.classList.add('red');
     state.landscapeContainer.innerHTML = '🌵__🐍_🦂_🌵🌵__🐍_🏜_🦂';
   } else if (state.temp >= 70 && state.temp <= 79) {
     state.currentTemp.style.color = 'orange';
     state.landscapeContainer.innerHTML = '🌸🌿🌼__🌷🌻🌿_☘️🌱_🌻🌷';
   } else if (state.temp >= 60 && state.temp <= 69) {
-    state.currentTemp.style.color = 'yellow';
+    state.currentTemp.style.color = 'gold';
     state.landscapeContainer.innerHTML = '🌾🌾_🍃_🪨__🛤_🌾🌾🌾_🍃';
   } else if (state.temp >= 50 && state.temp <= 59) {
     state.currentTemp.style.color = 'green';
@@ -51,18 +52,18 @@ const getLocation = async () => {
   try {
     const response = await axios.get('http://127.0.0.1:5000/location', {
       params: {
-        q: state.cityInput.value
-      },
+        q: state.cityName.textContent
+      }
     });
-    coords = {
-      lat: response.data[0].lat,
-      lon: response.data[0].lon
+    latitude = response.data[0].lat;
+    longitude = response.data[0].lon;
+    console.log('success! location:', latitude, longitude)
+    return {
+      lat: latitude,
+      lon: longitude
     };
-    console.log(coords)
-    return coords;
   } catch (error) {
-    console.log('error:', error);
-    return error;
+    console.log('error with location:', error);
   }
 };
 
@@ -72,15 +73,12 @@ const getTempBasedOnLocation = async (latitude, longitude) => {
       params: {
         lat: latitude,
         lon: longitude
-      },
+      }
     });
-    const kelvinTemp = response.data.main.temp;
-    state.temp = convertKelvinToFahrenehit(kelvinTemp);
-    console.log('temperature in F:', state.temp);
-    return state.temp;
+    state.temp = convertKelvinToFahrenehit(response.data.main.temp);
+    console.log('success! temperature in F:', state.temp);
   } catch (error) {
-    console.log('error:', error);
-    return error;
+    console.log('error with temp:', error);
   }
 };
 
