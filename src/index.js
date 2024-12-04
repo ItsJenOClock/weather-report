@@ -7,6 +7,7 @@ const state = {
   cityName: null,
   cityInput: null,
   realtimeTempButton: null,
+  resetButton: null,
 };
 
 const clickIncreaseTemp = () => {
@@ -26,20 +27,21 @@ const updateTemp = () => {
 };
 
 const refreshTempUI = () => {
+  state.tempElement.classList.value = '';
   if (state.temp >= 80) {
-    state.tempElement.style.color = 'red';
+    state.tempElement.classList.toggle('red');
     state.landscapeContainer.innerHTML = '🌵__🐍_🦂_🌵🌵__🐍_🏜_🦂';
   } else if (state.temp >= 70 && state.temp <= 79) {
-    state.tempElement.style.color = 'orange';
+    state.tempElement.classList.toggle('orange');
     state.landscapeContainer.innerHTML = '🌸🌿🌼__🌷🌻🌿_☘️🌱_🌻🌷';
   } else if (state.temp >= 60 && state.temp <= 69) {
-    state.tempElement.style.color = 'gold';
+    state.tempElement.classList.toggle('yellow');
     state.landscapeContainer.innerHTML = '🌾🌾_🍃_🪨__🛤_🌾🌾🌾_🍃';
   } else if (state.temp >= 50 && state.temp <= 59) {
-    state.tempElement.style.color = 'green';
+    state.tempElement.classList.toggle('green');
     state.landscapeContainer.innerHTML = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
-  } else if (state.temp <= 49 && state.temp !== null) {
-    state.tempElement.style.color = 'teal';
+  } else if (state.temp <= 49) {
+    state.tempElement.classList.toggle('teal');
     state.landscapeContainer.innerHTML = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
   }
 };
@@ -99,6 +101,12 @@ const getRealtimeTemp = async () => {
   refreshTempUI();
 };
 
+const resetCityName = () => {
+  state.cityInput.value = 'Seattle';
+  updateCity();  
+  getRealtimeTemp();
+}
+
 const loadControls = () => {
   state.landscapeContainer = document.getElementById('landscape');
   state.tempElement = document.getElementById('tempValue');
@@ -107,7 +115,8 @@ const loadControls = () => {
   state.cityName = document.getElementById('headerCityName');
   state.cityInput = document.getElementById('cityInputName');
   state.realtimeTempButton = document.getElementById('realtimeTemp');
-  getRealtimeTemp(); // shows default cityName's temperature on page load
+  state.resetButton = document.getElementById('cityNameReset');
+  resetCityName();
 };
 
 const registerEventHandlers = () => {
@@ -117,6 +126,7 @@ const registerEventHandlers = () => {
   state.decreaseButton.addEventListener('click', clickDecreaseTemp);
   state.cityInput.addEventListener('input', updateCity);
   state.realtimeTempButton.addEventListener('click', getRealtimeTemp);
+  state.resetButton.addEventListener('click', resetCityName);
 };
 
 document.addEventListener('DOMContentLoaded', registerEventHandlers);
