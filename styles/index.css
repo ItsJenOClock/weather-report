@@ -98,6 +98,24 @@ body {
     grid-row: 3;
 }
 
+#skySelect {
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#skyContainer{
+    font-size: 2em;
+    margin-top: 20px;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    min-height: 100px;
+    width: 80%;
+    margin: 20px auto;
+    transition: background-color 0.5s ease;
+}
+
 .city-name__section {
     grid-row: 4;
 }

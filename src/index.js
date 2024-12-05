@@ -8,6 +8,10 @@ const state = {
   cityInput: null,
   realtimeTempButton: null,
   resetButton: null,
+  skyOptions: ['Sunny', 'Cloudy', 'Rainy', 'Snowy'],
+  skyContainer: null,
+  skySelect: null,
+  sky: null
 };
 
 const clickIncreaseTemp = () => {
@@ -19,7 +23,7 @@ const clickIncreaseTemp = () => {
 const clickDecreaseTemp = () => {
   state.temp--;
   updateTemp();
-  setTimeout(refreshTempUI, 10);
+  refreshTempUI();
 };
 
 const updateTemp = () => {
@@ -46,6 +50,21 @@ const refreshTempUI = () => {
   } else if (state.temp <= 49) {
     state.tempElement.classList.toggle('teal');
     state.landscapeContainer.innerHTML = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
+    
+const selectedSky = () => {
+  state.sky = state.skySelect.value;
+  console.log(state.sky, state.skyOptions[0]);
+  if(state.sky === state.skyOptions[0]) {
+    state.skyContainer.innerHTML = '☁️ ☁️ ☁️ ☀️ ☁️ ☁️';
+  } else if (state.sky === state.skyOptions[1]) {
+    state.skyContainer.innerHTML = '☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️';
+  } else if (state.sky === state.skyOptions[2]) {
+    state.skyContainer.innerHTML = '🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧';
+  } else if (state.sky === state.skyOptions[3]) {
+    state.skyContainer.innerHTML = '🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨';
+  }
+  else {
+    state.skyContainer.innerHTML = '';
   }
 };
 
@@ -120,6 +139,9 @@ const loadControls = () => {
   state.realtimeTempButton = document.getElementById('realtimeTemp');
   state.resetButton = document.getElementById('cityNameReset');
   resetCityName();
+  state.skyContainer = document.getElementById('sky');
+  state.skySelect = document.getElementById('skySelect');
+  getRealtimeTemp(); // shows default cityName's temperature on page load
 };
 
 const registerEventHandlers = () => {
@@ -130,6 +152,7 @@ const registerEventHandlers = () => {
   state.cityInput.addEventListener('input', updateCity);
   state.realtimeTempButton.addEventListener('click', getRealtimeTemp);
   state.resetButton.addEventListener('click', resetCityName);
+  state.skyContainer.addEventListener('change', selectedSky);
 };
 
 document.addEventListener('DOMContentLoaded', registerEventHandlers);
