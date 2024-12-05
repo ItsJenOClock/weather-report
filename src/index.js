@@ -28,18 +28,21 @@ const updateTemp = () => {
 
 const refreshTempUI = () => {
   state.tempElement.classList.value = '';
-  if (state.temp >= 80) {
+  if (state.temp >= 90) {
     state.tempElement.classList.toggle('red');
     state.landscapeContainer.innerHTML = '🌵__🐍_🦂_🌵🌵__🐍_🏜_🦂';
-  } else if (state.temp >= 70 && state.temp <= 79) {
+  } else if (state.temp >= 80 && state.temp <= 89) {
     state.tempElement.classList.toggle('orange');
+    state.landscapeContainer.innerHTML = '🌊🌊🏖️_🌺_🐚🏝️⛱️🌴🌺_🌴';
+  } else if (state.temp >= 70 && state.temp <= 79) {
+    state.tempElement.classList.toggle('yellow');
     state.landscapeContainer.innerHTML = '🌸🌿🌼__🌷🌻🌿_☘️🌱_🌻🌷';
   } else if (state.temp >= 60 && state.temp <= 69) {
-    state.tempElement.classList.toggle('yellow');
-    state.landscapeContainer.innerHTML = '🌾🌾_🍃_🪨__🛤_🌾🌾🌾_🍃';
+    state.tempElement.classList.toggle('yellow-green');
+    state.landscapeContainer.innerHTML = '🌲🌳🌳_🌲🏕️🌲🍄‍🟫_🌳🍄🌲🌲';
   } else if (state.temp >= 50 && state.temp <= 59) {
     state.tempElement.classList.toggle('green');
-    state.landscapeContainer.innerHTML = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
+    state.landscapeContainer.innerHTML = '🌾🌾_🍃_🪨__🛤_🌾🌾🌾_🍃';
   } else if (state.temp <= 49) {
     state.tempElement.classList.toggle('teal');
     state.landscapeContainer.innerHTML = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
