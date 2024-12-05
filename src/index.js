@@ -53,22 +53,6 @@ const refreshTempUI = () => {
   }
 };
 
-const selectedSky = () => {
-  state.sky = state.skySelect.value;
-  console.log(state.sky, state.skyOptions[0]);
-  if(state.sky === state.skyOptions[0]) {
-    state.skyContainer.innerHTML = '☁️ ☁️ ☁️ ☀️ ☁️ ☁️';
-  } else if (state.sky === state.skyOptions[1]) {
-    state.skyContainer.innerHTML = '☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️';
-  } else if (state.sky === state.skyOptions[2]) {
-    state.skyContainer.innerHTML = '🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧';
-  } else if (state.sky === state.skyOptions[3]) {
-    state.skyContainer.innerHTML = '🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨';
-  }
-  else {
-    state.skyContainer.innerHTML = '';
-  }
-};
 
 const updateCity = () => {
   state.cityName.textContent = state.cityInput.value;
@@ -131,6 +115,23 @@ const resetCityName = () => {
   getRealtimeTemp();
 }
 
+const selectedSky = () => {
+  state.sky = state.skySelect.value;
+  if(state.sky === state.skyOptions[0]) {
+    state.skyContainer.innerHTML = '☁️ ☁️ ☁️ ☀️ ☁️ ☁️';
+  } else if (state.sky === state.skyOptions[1]) {
+    state.skyContainer.innerHTML = '☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️';
+  } else if (state.sky === state.skyOptions[2]) {
+    state.skyContainer.innerHTML = '🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧';
+  } else if (state.sky === state.skyOptions[3]) {
+    state.skyContainer.innerHTML = '🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨';
+  }
+  else {
+    state.skyContainer.innerHTML = '';
+  }
+};
+
+
 const loadControls = () => {
   state.landscapeContainer = document.getElementById('landscape');
   state.tempElement = document.getElementById('tempValue');
@@ -140,10 +141,9 @@ const loadControls = () => {
   state.cityInput = document.getElementById('cityInputName');
   state.realtimeTempButton = document.getElementById('realtimeTemp');
   state.resetButton = document.getElementById('cityNameReset');
-  resetCityName();
   state.skyContainer = document.getElementById('sky');
   state.skySelect = document.getElementById('skySelect');
-  getRealtimeTemp(); // shows default cityName's temperature on page load
+  resetCityName();
 };
 
 const registerEventHandlers = () => {
@@ -154,7 +154,7 @@ const registerEventHandlers = () => {
   state.cityInput.addEventListener('input', updateCity);
   state.realtimeTempButton.addEventListener('click', getRealtimeTemp);
   state.resetButton.addEventListener('click', resetCityName);
-  state.skyContainer.addEventListener('change', selectedSky);
+  state.skySelect.addEventListener('change', selectedSky);
 };
 
 document.addEventListener('DOMContentLoaded', registerEventHandlers);
