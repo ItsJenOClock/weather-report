@@ -50,7 +50,9 @@ const refreshTempUI = () => {
   } else if (state.temp <= 49) {
     state.tempElement.classList.toggle('teal');
     state.landscapeContainer.innerHTML = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
-    
+  }
+};
+
 const selectedSky = () => {
   state.sky = state.skySelect.value;
   console.log(state.sky, state.skyOptions[0]);
