@@ -164,41 +164,40 @@ body {
 
 .red {
     color: red;
-    }
+}
     
-    .orange {
+.orange {
     color: orange;
-    }
+}
     
-    .yellow {
+.yellow {
     color: gold;
-    }
+}
     
-    .yellow-green {
+.yellow-green {
     color: yellowgreen;
-    }
+}
     
-    .green {
+.green {
     color: green;
-    }
+}
     
-    .teal {
+.teal {
     color: teal;
-    }
+}
     
-    .cloudy {
-    background-color: lightgrey;
-    }
-    
-    .sunny {
+.garden__content.sunny {
     background-color: rgb(221, 255, 255);
-    }
-    
-    .rainy {
-    background-color: lightblue;
-    }
-    
-    .snowy {
-    background-color: lightsteelblue;
-    }
+}
 
+.garden__content.cloudy {
+    background-color: lightgray;
+}
+
+.garden__content.rainy {
+    background-color: lightblue;
+}
+
+.garden__content.snowy {
+    background-color: lightsteelblue;
+}

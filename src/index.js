@@ -117,14 +117,19 @@ const resetCityName = () => {
 
 const selectedSky = () => {
   state.sky = state.skySelect.value;
+  state.gardenContent.classList.remove('sunny', 'cloudy', 'rainy', 'snowy');
   if(state.sky === state.skyOptions[0]) {
     state.skyContainer.innerHTML = '☁️ ☁️ ☁️ ☀️ ☁️ ☁️';
+    state.gardenContent.classList.add('sunny');
   } else if (state.sky === state.skyOptions[1]) {
     state.skyContainer.innerHTML = '☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️';
+    state.gardenContent.classList.add('cloudy');
   } else if (state.sky === state.skyOptions[2]) {
     state.skyContainer.innerHTML = '🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧';
+    state.gardenContent.classList.add('rainy');
   } else if (state.sky === state.skyOptions[3]) {
     state.skyContainer.innerHTML = '🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨';
+    state.gardenContent.classList.add('snowy');
   }
   else {
     state.skyContainer.innerHTML = '';
@@ -143,6 +148,7 @@ const loadControls = () => {
   state.resetButton = document.getElementById('cityNameReset');
   state.skyContainer = document.getElementById('sky');
   state.skySelect = document.getElementById('skySelect');
+  state.gardenContent = document.getElementById('gardenContent');
   resetCityName();
 };
 
