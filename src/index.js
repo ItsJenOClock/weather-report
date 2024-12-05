@@ -7,8 +7,10 @@ const state = {
   cityName: null,
   cityInput: null,
   realtimeTempButton: null,
-  sky: ['Sunny', 'Cloudy', 'Rainy', 'Snowy'],
+  skyOptions: ['Sunny', 'Cloudy', 'Rainy', 'Snowy'],
   skyContainer: null,
+  skySelect: null,
+  sky: null,
 };
 
 const clickIncreaseTemp = () => {
@@ -27,47 +29,20 @@ const updateTemp = () => {
   state.tempElement.textContent = state.temp;
 };
 
-const refreshTempUI = () => {
-  if (state.temp >= 80) {
-    state.tempElement.style.color = 'red';
-    state.landscapeContainer.innerHTML = '🌵__🐍_🦂_🌵🌵__🐍_🏜_🦂';
-  } else if (state.temp >= 70 && state.temp <= 79) {
-    state.tempElement.style.color = 'orange';
-    state.landscapeContainer.innerHTML = '🌸🌿🌼__🌷🌻🌿_☘️🌱_🌻🌷';
-  } else if (state.temp >= 60 && state.temp <= 69) {
-    state.tempElement.style.color = 'gold';
-    state.landscapeContainer.innerHTML = '🌾🌾_🍃_🪨__🛤_🌾🌾🌾_🍃';
-  } else if (state.temp >= 50 && state.temp <= 59) {
-    state.tempElement.style.color = 'green';
-    state.landscapeContainer.innerHTML = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
-  } else if (state.temp <= 49 && state.temp !== null) {
-    state.tempElement.style.color = 'teal';
-    state.landscapeContainer.innerHTML = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
-  }
-};
-
-const skyOptions = [
-  { value: 'sunnySky', text: 'Sunny', content: '☁️ ☁️ ☁️ ☀️ ☁️ ☁️'},
-  { value: 'cloudySky', text: 'Cloudy', content: '☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️'},
-  { value: 'rainySky', text: 'Rainy', content: '🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧'},
-  { value: 'snowySky', text: 'Snowy', content: '🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨'}
-];
-
-console.log('state.sky, state.skyOptions[0]');
-
 const selectedSky = () => {
-  state.sky = skySelect.value;
-
-  if (!state.sky) {
-    skyContainer.textContent = 'Please select a sky';
-    skyContainer.className = '';
-    return;
+  state.sky = state.skySelect.value;
+  console.log(state.sky, state.skyOptions[0]);
+  if(state.sky === state.skyOptions[0]) {
+    state.skyContainer.innerHTML = '☁️ ☁️ ☁️ ☀️ ☁️ ☁️';
+  } else if (state.sky === state.skyOptions[1]) {
+    state.skyContainer.innerHTML = '☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️';
+  } else if (state.sky === state.skyOptions[2]) {
+    state.skyContainer.innerHTML = '🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧';
+  } else if (state.sky === state.skyOptions[3]) {
+    state.skyContainer.innerHTML = '🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨';
   }
-  const selectedOption = skyOptions.find(option => option.value === state.sky);
-
-  if (selectedOption) {
-    skyContainer.textContent = selectedOption.content;
-    skyContainer.className = `sky-container ${selectedOption.value}`;
+  else {
+    state.skyContainer.innerHTML = '';
   }
 };
 
@@ -134,7 +109,8 @@ const loadControls = () => {
   state.cityName = document.getElementById('headerCityName');
   state.cityInput = document.getElementById('cityInputName');
   state.realtimeTempButton = document.getElementById('realtimeTemp');
-  state.skyContainer = document.getElementById('skySelect');
+  state.skyContainer = document.getElementById('sky');
+  state.skySelect = document.getElementById('skySelect');
   getRealtimeTemp(); // shows default cityName's temperature on page load
 };
 
