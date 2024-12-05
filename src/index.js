@@ -6,8 +6,9 @@ const state = {
   decreaseButton: null,
   cityName: null,
   cityInput: null,
+  realtimeTempButton: null,
+  sky: ['Sunny', 'Cloudy', 'Rainy', 'Snowy'],
   skyContainer: null,
-  sky: '',
 };
 
 const clickIncreaseTemp = () => {
@@ -19,7 +20,7 @@ const clickIncreaseTemp = () => {
 const clickDecreaseTemp = () => {
   state.temp--;
   updateTemp();
-  setTimeout(refreshTempUI, 10);
+  refreshTempUI();
 };
 
 const updateTemp = () => {
@@ -132,9 +133,10 @@ const loadControls = () => {
   state.decreaseButton = document.getElementById('decreaseTemperatureControl');
   state.cityName = document.getElementById('headerCityName');
   state.cityInput = document.getElementById('cityInputName');
-  state.skySelect = document.getElementById('skySelect');
-  state.skyContainer = document.getElementById('skyContainer');
-}
+  state.realtimeTempButton = document.getElementById('realtimeTemp');
+  state.skyContainer = document.getElementById('skySelect');
+  getRealtimeTemp(); // shows default cityName's temperature on page load
+};
 
 const registerEventHandlers = () => {
   loadControls();
@@ -142,7 +144,8 @@ const registerEventHandlers = () => {
   state.increaseButton.addEventListener('click', clickIncreaseTemp);
   state.decreaseButton.addEventListener('click', clickDecreaseTemp);
   state.cityInput.addEventListener('input', updateCity);
-  state.skySelect.addEventListener('change', selectedSky);
+  state.realtimeTempButton.addEventListener('click', getRealtimeTemp);
+  state.skyContainer.addEventListener('change', selectedSky);
 };
 
 document.addEventListener('DOMContentLoaded', registerEventHandlers);
