@@ -6,6 +6,8 @@ const state = {
   decreaseButton: null,
   cityName: null,
   cityInput: null,
+  skyContainer: null,
+  sky: '',
 };
 
 const clickIncreaseTemp = () => {
@@ -43,18 +45,28 @@ const refreshTempUI = () => {
   }
 };
 
+const skyOptions = [
+  { value: 'sunnySky', text: 'Sunny', content: '☁️ ☁️ ☁️ ☀️ ☁️ ☁️'},
+  { value: 'cloudySky', text: 'Cloudy', content: '☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️'},
+  { value: 'rainySky', text: 'Rainy', content: '🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧'},
+  { value: 'snowySky', text: 'Snowy', content: '🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨'}
+];
+
+console.log('state.sky, state.skyOptions[0]');
+
 const selectedSky = () => {
-  if(state.sky === state.sky[0]) {
-    state.skyContainer.innerHTML = '☁️ ☁️ ☁️ ☀️ ☁️ ☁️';
-  } else if (state.sky === state.sky[1]) {
-    state.skyContainer.innerHTML = '☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️';
-  } else if (state.sky === state.sky[2]) {
-    state.skyContainer.innerHTML = '🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧';
-  } else if(state.sky === state.sky[3]) {
-    state.skyContainer.innerHTML = '🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨';
+  state.sky = skySelect.value;
+
+  if (!state.sky) {
+    skyContainer.textContent = 'Please select a sky';
+    skyContainer.className = '';
+    return;
   }
-  else {
-    state.skyContainer.innerHTML = 'select a sky';
+  const selectedOption = skyOptions.find(option => option.value === state.sky);
+
+  if (selectedOption) {
+    skyContainer.textContent = selectedOption.content;
+    skyContainer.className = `sky-container ${selectedOption.value}`;
   }
 };
 
@@ -120,6 +132,8 @@ const loadControls = () => {
   state.decreaseButton = document.getElementById('decreaseTemperatureControl');
   state.cityName = document.getElementById('headerCityName');
   state.cityInput = document.getElementById('cityInputName');
+  state.skySelect = document.getElementById('skySelect');
+  state.skyContainer = document.getElementById('skyContainer');
 }
 
 const registerEventHandlers = () => {
@@ -128,6 +142,7 @@ const registerEventHandlers = () => {
   state.increaseButton.addEventListener('click', clickIncreaseTemp);
   state.decreaseButton.addEventListener('click', clickDecreaseTemp);
   state.cityInput.addEventListener('input', updateCity);
+  state.skySelect.addEventListener('change', selectedSky);
 };
 
 document.addEventListener('DOMContentLoaded', registerEventHandlers);
