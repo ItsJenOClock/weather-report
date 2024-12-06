@@ -4,14 +4,14 @@ const state = {
   landscapeContainer: null,
   increaseButton: null,
   decreaseButton: null,
-  cityName: null,
+  cityName: 'Seattle',
   cityInput: null,
   realtimeTempButton: null,
-  resetButton: null,
   skyOptions: ['Sunny', 'Cloudy', 'Rainy', 'Snowy'],
   skyContainer: null,
   skySelect: null,
-  sky: null
+  sky: null,
+  resetButton: null,
 };
 
 const clickIncreaseTemp = () => {
@@ -47,12 +47,11 @@ const refreshTempUI = () => {
   } else if (state.temp >= 50 && state.temp <= 59) {
     state.tempElement.classList.toggle('green');
     state.landscapeContainer.innerHTML = '🌾🌾_🍃_🪨__🛤_🌾🌾🌾_🍃';
-  } else if (state.temp <= 49) {
+  } else if (state.temp <= 49 && state.temp !== null) {
     state.tempElement.classList.toggle('teal');
     state.landscapeContainer.innerHTML = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
   }
 };
-
 
 const updateCity = () => {
   state.cityName.textContent = state.cityInput.value;
@@ -75,7 +74,6 @@ const getLocation = async () => {
   } catch (error) {
     console.log('error with location:', error);
     if (error instanceof TypeError || error.message === "Request failed with status code 400") alert('Error. Please input a valid city.');
-    if (error.message === 'Network Error') alert('Error with server. Please try again.');
   }
 };
 
@@ -109,23 +107,17 @@ const getRealtimeTemp = async () => {
   refreshTempUI();
 };
 
-const resetCityName = () => {
-  state.cityInput.value = 'Seattle';
-  updateCity();  
-  getRealtimeTemp();
-}
-
 const selectedSky = () => {
   state.sky = state.skySelect.value;
   state.gardenContent.classList.remove('sunny', 'cloudy', 'rainy', 'snowy');
-  if(state.sky === state.skyOptions[0]) {
+  if (state.sky === state.skyOptions[0]) {
     state.skyContainer.innerHTML = '☁️ ☁️ ☁️ ☀️ ☁️ ☁️';
     state.gardenContent.classList.add('sunny');
   } else if (state.sky === state.skyOptions[1]) {
     state.skyContainer.innerHTML = '☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️';
     state.gardenContent.classList.add('cloudy');
   } else if (state.sky === state.skyOptions[2]) {
-    state.skyContainer.innerHTML = '🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧';
+    state.skyContainer.innerHTML = '🌧🌈⛈️🌧🌧💧⛈️🌧🌦🌧💧🌧🌧';
     state.gardenContent.classList.add('rainy');
   } else if (state.sky === state.skyOptions[3]) {
     state.skyContainer.innerHTML = '🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨';
@@ -136,6 +128,11 @@ const selectedSky = () => {
   }
 };
 
+const resetCityName = () => {
+  state.cityInput.value = 'Seattle';
+  updateCity();  
+  getRealtimeTemp();
+}
 
 const loadControls = () => {
   state.landscapeContainer = document.getElementById('landscape');
@@ -145,10 +142,10 @@ const loadControls = () => {
   state.cityName = document.getElementById('headerCityName');
   state.cityInput = document.getElementById('cityInputName');
   state.realtimeTempButton = document.getElementById('realtimeTemp');
-  state.resetButton = document.getElementById('cityNameReset');
   state.skyContainer = document.getElementById('sky');
   state.skySelect = document.getElementById('skySelect');
   state.gardenContent = document.getElementById('gardenContent');
+  state.resetButton = document.getElementById('cityNameReset');
   resetCityName();
 };
 
@@ -159,8 +156,8 @@ const registerEventHandlers = () => {
   state.decreaseButton.addEventListener('click', clickDecreaseTemp);
   state.cityInput.addEventListener('input', updateCity);
   state.realtimeTempButton.addEventListener('click', getRealtimeTemp);
-  state.resetButton.addEventListener('click', resetCityName);
   state.skySelect.addEventListener('change', selectedSky);
+  state.resetButton.addEventListener('click', resetCityName);
 };
 
 document.addEventListener('DOMContentLoaded', registerEventHandlers);
