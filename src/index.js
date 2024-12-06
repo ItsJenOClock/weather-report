@@ -12,22 +12,28 @@ const state = {
   skySelect: null,
   sky: null,
   resetButton: null,
+  degreeType: null,
+  degreeTypeRadioButtons: null,
 };
 
 const clickIncreaseTemp = () => {
-  state.temp++;
-  updateTemp();
+  if (state.degreeType === 'fahrenheit') {
+    state.temp++;
+  } else if (state.degreeType === 'celsius') {
+    state.temp += 9 / 5;
+  }
+  updateTempBasedOnDegreeType();
   refreshTempUI();
 };
 
 const clickDecreaseTemp = () => {
-  state.temp--;
-  updateTemp();
+  if (state.degreeType === 'fahrenheit') {
+    state.temp--;
+  } else if (state.degreeType === 'celsius') {
+    state.temp -= 9 / 5;
+  }
+  updateTempBasedOnDegreeType();
   refreshTempUI();
-};
-
-const updateTemp = () => {
-  state.tempElement.textContent = state.temp;
 };
 
 const refreshTempUI = () => {
@@ -35,19 +41,19 @@ const refreshTempUI = () => {
   if (state.temp >= 90) {
     state.tempElement.classList.toggle('red');
     state.landscapeContainer.innerHTML = '🌵__🐍_🦂_🌵🌵__🐍_🏜_🦂';
-  } else if (state.temp >= 80 && state.temp <= 89) {
+  } else if (state.temp >= 80) {
     state.tempElement.classList.toggle('orange');
     state.landscapeContainer.innerHTML = '🌊🌊🏖️_🌺_🐚🏝️⛱️🌴🌺_🌴';
-  } else if (state.temp >= 70 && state.temp <= 79) {
+  } else if (state.temp >= 70) {
     state.tempElement.classList.toggle('yellow');
     state.landscapeContainer.innerHTML = '🌸🌿🌼__🌷🌻🌿_☘️🌱_🌻🌷';
-  } else if (state.temp >= 60 && state.temp <= 69) {
+  } else if (state.temp >= 60) {
     state.tempElement.classList.toggle('yellow-green');
     state.landscapeContainer.innerHTML = '🌲🌳🌳_🌲🏕️🌲🍄‍🟫_🌳🍄🌲🌲';
-  } else if (state.temp >= 50 && state.temp <= 59) {
+  } else if (state.temp >= 50) {
     state.tempElement.classList.toggle('green');
     state.landscapeContainer.innerHTML = '🌾🌾_🍃_🪨__🛤_🌾🌾🌾_🍃';
-  } else if (state.temp <= 49 && state.temp !== null) {
+  } else if (state.temp < 50 && state.temp !== null) {
     state.tempElement.classList.toggle('teal');
     state.landscapeContainer.innerHTML = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
   }
@@ -93,17 +99,17 @@ const getTempBasedOnLocation = async (latitude, longitude) => {
 };
 
 const convertKelvinToFahrenehit = (kelvinTemp) => {
-  return Math.ceil((convertKelvinToCelsius(kelvinTemp)) * 9 / 5 + 32);
+  return ((kelvinTemp - 273.15) * 9 / 5) + 32;
 };
 
-const convertKelvinToCelsius = (kelvinTemp) => {
-  return Math.ceil(kelvinTemp - 273.15);
+const convertFahrenheitToCelsius = (fahrenheitTemp) => {
+  return (fahrenheitTemp - 32) * 5 / 9;
 };
 
 const getRealtimeTemp = async () => {
   const loc = await getLocation();
-  const realtimeTemp = await getTempBasedOnLocation(loc.lat, loc.lon);
-  updateTemp();
+  await getTempBasedOnLocation(loc.lat, loc.lon);
+  updateTempBasedOnDegreeType();
   refreshTempUI();
 };
 
@@ -131,7 +137,16 @@ const resetCityName = () => {
   state.cityInput.value = 'Seattle';
   updateCity();
   getRealtimeTemp();
-}
+};
+
+const updateTempBasedOnDegreeType = () => {
+  state.degreeType = document.querySelector('input[name="degrees"]:checked').value;
+  if (state.degreeType === 'fahrenheit') {
+    state.tempElement.textContent = Math.round(state.temp);
+  } else if (state.degreeType === 'celsius') {
+    state.tempElement.textContent = Math.round(convertFahrenheitToCelsius(state.temp));
+  }
+};
 
 const loadControls = () => {
   state.landscapeContainer = document.getElementById('landscape');
@@ -145,18 +160,23 @@ const loadControls = () => {
   state.skySelect = document.getElementById('skySelect');
   state.gardenContent = document.getElementById('gardenContent');
   state.resetButton = document.getElementById('cityNameReset');
+  state.degreeType = document.querySelector('input[name="degrees"]:checked').value;
+  state.degreeTypeRadioButtons = document.querySelectorAll('input[name="degrees"]');
   resetCityName();
+  refreshTempUI();
 };
 
 const registerEventHandlers = () => {
   loadControls();
-  refreshTempUI();
   state.increaseButton.addEventListener('click', clickIncreaseTemp);
   state.decreaseButton.addEventListener('click', clickDecreaseTemp);
   state.cityInput.addEventListener('input', updateCity);
   state.realtimeTempButton.addEventListener('click', getRealtimeTemp);
   state.skySelect.addEventListener('change', selectedSky);
   state.resetButton.addEventListener('click', resetCityName);
+  state.degreeTypeRadioButtons.forEach((button) => {
+    button.addEventListener('change', updateTempBasedOnDegreeType);
+  });
 };
 
 document.addEventListener('DOMContentLoaded', registerEventHandlers);
