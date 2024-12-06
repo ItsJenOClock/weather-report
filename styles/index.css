@@ -14,7 +14,7 @@ body {
     grid-column: span 3;
     display: flex;
     align-items: center;
-    margin: 2rem auto 3rem auto;
+    margin: auto;
 }
 
 .header__header > h1 {
