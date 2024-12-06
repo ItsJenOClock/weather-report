@@ -222,3 +222,15 @@ body {
 .garden__content.snowy {
     background-color: lightsteelblue;
 }
+
+.degree__type {
+    grid-column: span 3;
+    grid-row: 1;
+    text-align: right;
+    color: white;
+    accent-color: black;
+}
+
+.degree__type label{
+    padding-right: 10px;
+}
