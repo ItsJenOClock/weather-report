@@ -93,7 +93,7 @@ const getTempBasedOnLocation = async (latitude, longitude) => {
 };
 
 const convertKelvinToFahrenehit = (kelvinTemp) => {
-  return Math.ceil((convertKelvinToCelsius(kelvinTemp)) * 9/5 + 32);
+  return Math.ceil((convertKelvinToCelsius(kelvinTemp)) * 9 / 5 + 32);
 };
 
 const convertKelvinToCelsius = (kelvinTemp) => {
@@ -122,15 +122,14 @@ const selectedSky = () => {
   } else if (state.sky === state.skyOptions[3]) {
     state.skyContainer.innerHTML = '🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨';
     state.gardenContent.classList.add('snowy');
-  }
-  else {
+  } else {
     state.skyContainer.innerHTML = '';
   }
 };
 
 const resetCityName = () => {
   state.cityInput.value = 'Seattle';
-  updateCity();  
+  updateCity();
   getRealtimeTemp();
 }
 
