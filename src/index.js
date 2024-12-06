@@ -64,7 +64,7 @@ const updateCity = () => {
 
 const getLocation = async () => {
   try {
-    const response = await axios.get('https://weather-report-server-dmu8.onrender.com/location', {
+    const response = await axios.get('https://ada-weather-report-proxy-server.onrender.com/location', {
       params: {
         q: state.cityName.textContent
       }
@@ -84,7 +84,7 @@ const getLocation = async () => {
 
 const getTempBasedOnLocation = async (latitude, longitude) => {
   try {
-    const response = await axios.get('https://weather-report-server-dmu8.onrender.com/weather', {
+    const response = await axios.get('https://ada-weather-report-proxy-server.onrender.com/weather', {
       params: {
         lat: latitude,
         lon: longitude
