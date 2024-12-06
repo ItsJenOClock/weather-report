@@ -37,25 +37,24 @@ const clickDecreaseTemp = () => {
 };
 
 const refreshTempUI = () => {
+  const tempRangeOptions = [
+    { minTemp: 100, colorClassName: 'maroon', landscape: '🔥_🌋🔥_🔥🔥_🔥__🏜🦂_🦎' },
+    { minTemp: 90, colorClassName: 'red', landscape: '🌵__🐍_🦂_🌵🌵__🐍_🏜_🦂' },
+    { minTemp: 80, colorClassName: 'orange', landscape: '🌊🌊🏖️_🌺_🐚🏝️⛱️🌴🌺_🌴' },
+    { minTemp: 70, colorClassName: 'yellow', landscape: '🌸🌿🌼__🌷🌻🌿_☘️🌱_🌻🌷' },
+    { minTemp: 60, colorClassName: 'yellow-green', landscape: '🌲🌳🌳_🌲🏕️🌲🍄‍🟫_🌳🍄🌲🌲' },
+    { minTemp: 50, colorClassName: 'green', landscape: '🌾🌾_🍃_🪨__🛤_🌾🌾🌾_🍃' },
+    { minTemp: 40, colorClassName: 'sea-green', landscape: '🍂🍁__🌰🐿️_🪵🍁🍂🥀🍂🍂' },
+    { minTemp: 30, colorClassName: 'teal', landscape: '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲' },
+    { minTemp: -Infinity, colorClassName: 'blue', landscape: '⛄️🌲🦌🗻🧊🌲🌲🦌🧊🗻🌲🧊🧊' }
+  ];
   state.tempElement.classList.value = '';
-  if (state.temp >= 90) {
-    state.tempElement.classList.toggle('red');
-    state.landscapeContainer.innerHTML = '🌵__🐍_🦂_🌵🌵__🐍_🏜_🦂';
-  } else if (state.temp >= 80) {
-    state.tempElement.classList.toggle('orange');
-    state.landscapeContainer.innerHTML = '🌊🌊🏖️_🌺_🐚🏝️⛱️🌴🌺_🌴';
-  } else if (state.temp >= 70) {
-    state.tempElement.classList.toggle('yellow');
-    state.landscapeContainer.innerHTML = '🌸🌿🌼__🌷🌻🌿_☘️🌱_🌻🌷';
-  } else if (state.temp >= 60) {
-    state.tempElement.classList.toggle('yellow-green');
-    state.landscapeContainer.innerHTML = '🌲🌳🌳_🌲🏕️🌲🍄‍🟫_🌳🍄🌲🌲';
-  } else if (state.temp >= 50) {
-    state.tempElement.classList.toggle('green');
-    state.landscapeContainer.innerHTML = '🌾🌾_🍃_🪨__🛤_🌾🌾🌾_🍃';
-  } else if (state.temp < 50 && state.temp !== null) {
-    state.tempElement.classList.toggle('teal');
-    state.landscapeContainer.innerHTML = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲';
+  for (const tempRange of tempRangeOptions) {
+    if (state.temp >= tempRange.minTemp) {
+      state.tempElement.classList.toggle(tempRange.colorClassName);
+      state.landscapeContainer.innerHTML = tempRange.landscape;
+      break;
+    }
   }
 };
 
